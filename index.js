@@ -28,17 +28,28 @@ const promptUser = () => {
       name: "questions",
       message: "What is your E-mail address?",
     },
+  ]);
+};
 
+
+
+const promptProject = () => {
+  console.log(`
+=================
+Add a New Project
+=================
+  `);
+  return inquirer.prompt([
     {
       type: "input",
-      name: "questions",
-      message: " please enetr your Git Hub username",
+      name: "link",
+      message: "please enter your Git Hub link. (required)",
     },
 
     {
       type: "input",
       name: "installation",
-      message: "how to install your project",
+      message: "how to install your project.",
     },
 
     {
@@ -50,14 +61,14 @@ const promptUser = () => {
     {
       type: "input",
       name: "contributing",
-      message: "who contributed to your project",
+      message: "who contributed to your project?",
     },
 
     {
       type: "input",
       name: "usage",
       message:
-        "Provide instructions and examples of your project in use for the Usage section",
+        "Provide instructions and examples of your project in use for the Usage section.",
     },
 
     {
@@ -68,7 +79,8 @@ const promptUser = () => {
     },
 
     {
-      type: "list",
+      type: "checkbox",
+      name: "license",
       message: "Choose a license for your project.",
       choices: [
         "GNU AGPLv3",
@@ -80,11 +92,14 @@ const promptUser = () => {
         "Boost Software License 1.0",
         "The Unlicense",
       ],
-      name: "license",
     },
+   
   ]);
 };
-promptUser().then((answers) => console.log(answers));
+promptUser()
+  .then((answers) => console.log(answers))
+  .then(promptProject)
+  .then((projectAnswers) => console.log(projectAnswers));
 
 // TODO: Create a function to write README file
 
