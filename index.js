@@ -20,18 +20,32 @@ const promptUser = () => {
     {
       type: "input",
       name: "title",
-      message: "What is the project title?",
+      message: "What is the project title? (Required)",
+      validate: (nameInput) => {
+        if (nameInput) {
+          return true;
+        } else {
+          console.log("Enter project title to continue!");
+          return false;
+        }
+      },
     },
 
     {
       type: "input",
       name: "questions",
-      message: "What is your E-mail address?",
+      message: "What is your E-mail address? (Required)",
+      validate: (nameInput) => {
+        if (nameInput) {
+          return true;
+        } else {
+          console.log("Enter E-mail to continue!");
+          return false;
+        }
+      },
     },
   ]);
 };
-
-
 
 const promptProject = () => {
   console.log(`
@@ -43,7 +57,15 @@ Add a New Project
     {
       type: "input",
       name: "link",
-      message: "please enter your Git Hub link. (required)",
+      message: "What is your Git Hub link? (required)",
+      validate: (nameInput) => {
+        if (nameInput) {
+          return true;
+        } else {
+          console.log("Enter Git Hub link to continue!");
+          return false;
+        }
+      },
     },
 
     {
@@ -93,7 +115,6 @@ Add a New Project
         "The Unlicense",
       ],
     },
-   
   ]);
 };
 promptUser()
