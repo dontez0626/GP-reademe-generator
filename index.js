@@ -23,11 +23,25 @@ const promptUser = () => {
       type: "input",
       name: "title",
       message: "What is your project title?",
+      validate: (value) => {
+        if (value) {
+          return true;
+        } else {
+          return "please enter project title to continue";
+        }
+      },
     },
     {
       type: "input",
       name: "description",
       message: "Write a brief description of your project.",
+      validate: (value) => {
+        if (value) {
+          return true;
+        } else {
+          return "please enter description to continue";
+        }
+      },
     },
 
     {
@@ -71,12 +85,26 @@ const promptUser = () => {
       type: "input",
       name: "username",
       message: "Please enter your GitHub username.",
+      validate: (value) => {
+        if (value) {
+          return true;
+        } else {
+          return "please enter username to continue";
+        }
+      },
     },
 
     {
       type: "input",
       name: "email",
       message: "Please enter your E-mail address.",
+      validate: (value) => {
+        if (value) {
+          return true;
+        } else {
+          return "please enter E-mail to continue";
+        }
+      },
     },
   ]);
 
