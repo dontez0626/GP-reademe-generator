@@ -1,131 +1,139 @@
 /** @format */
+
+// TODO: Include packages needed for this application
+const fs = require("fs");
 const inquirer = require("inquirer");
+const util = require("util");
+const { generateMarkdown } = require("./utils/generateMarkdown");
 
-//const fs = require("fs");
-//const generatePage = require("./src/page-template.js");
-//const pageHTML = generatePage(name, github);
+const writeFileAsync = util.promisify(fs.writeFile);
 
-
-
-
-
-
-
-//fs.writeFile('./index.html', generatePage(name, github), (err) => {
- // if (err) throw new Error(err);
-
- // console.log("ReadMe complete! Check out index.html to see the final product!");
-//});
-
+// TODO: Create an array of questions for user input
 const promptUser = () => {
-  return inquirer.prompt([
-    {
-      type: "input",
-      name: "title",
-      message: "What is your project title?",
-      validate: (value) => {
-        if (value) {
-          return true;
-        } else {
-          return "please enter project title to continue";
-        }
+  inquirer
+    .prompt([
+      {
+        name: "Title",
+        message: "What is the title of your project?",
+        type: "input",
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "please enter value to continue";
+          }
+        },
       },
-    },
-    {
-      type: "input",
-      name: "description",
-      message: "Write a brief description of your project.",
-      validate: (value) => {
-        if (value) {
-          return true;
-        } else {
-          return "please enter description to continue";
-        }
+      {
+        type: "input",
+        name: "Description",
+        message: "Give a short description of your project",
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "please enter value to continue";
+          }
+        },
       },
-    },
-
-    {
-      type: "input",
-      name: "installation",
-      message: "How do you install your project?",
-    },
-
-    {
-      type: "input",
-      name: "usage",
-      message: "What is this product used for?",
-    },
-
-    {
-      type: "input",
-      name: "contributing",
-      message: "Who contributed to this project?",
-    },
-
-    {
-      type: "input",
-      name: "license",
-      message: "choose a license for this project",
-      choices: ["GNU", "ISC", "MIT", "Mozilla", "Academic", "Apache"],
-    },
-
-    {
-      type: "input",
-      name: "questions",
-      message: "Any issues?",
-    },
-
-    {
-      type: "input",
-      name: "tests",
-      message: "Provide test (optional)",
-    },
-
-    {
-      type: "input",
-      name: "username",
-      message: "Please enter your GitHub username.",
-      validate: (value) => {
-        if (value) {
-          return true;
-        } else {
-          return "please enter username to continue";
-        }
+      {
+        type: "input",
+        name: "Installation",
+        message:
+          "What instructions should users follow to install your application?",
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "please enter value to continue";
+          }
+        },
       },
-    },
-
-    {
-      type: "input",
-      name: "email",
-      message: "Please enter your E-mail address.",
-      validate: (value) => {
-        if (value) {
-          return true;
-        } else {
-          return "please enter E-mail to continue";
-        }
+      {
+        type: "input",
+        name: "Usage",
+        message: "How to use this applicaiton?",
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "please enter value to continue";
+          }
+        },
       },
-    },
-  ]);
+      {
+        type: "list",
+        message: "What is the license for this project?",
+        name: "License",
+        choices: [
+          "ISC [![License: (https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)",
+          "MIT [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+          "APACHE 2.0 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)",
+          "artistic-2.0 [![License: Artistic-2.0](https://img.shields.io/badge/License-Artistic%202.0-0298c3.svg)](https://opensource.org/licenses/Artistic-2.0)",
+          "GPL [![License: (https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)",
+          "None",
+        ],
+      },
+      {
+        type: "input",
+        name: "Contributing",
+        message: "How can users contribute to this project?",
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "please enter value to continue.";
+          }
+        },
+      },
+      {
+        type: "input",
+        name: "Tests",
+        message: "Provide test instructions",
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "please enter value to continue";
+          }
+        },
+      },
+      {
+        type: "input",
+        name: "Questions",
+        message: "Enter your github username.",
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "please enter value to continue";
+          }
+        },
+      },
 
-
+      {
+        type: "input",
+        name: "Email",
+        message: "Enter your Email address",
+        validate: (value) => {
+          if (value) {
+            return true;
+          } else {
+            return "please enter value to continue";
+          }
+        },
+      },
+    ])
+    // TODO: Create a function to write README file
+    .then((answers) => {
+      writeToFile(answers);
+      console.log("README.md is now created!");
+    })
+    .catch((err) => console.error(err));
 };
 
-promptUser().then((answers) => console.log(answers));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const writeToFile = (answers) => {
+  writeFileAsync("README.md", generateMarkdown(answers));
+};
+// Function call to initialize app!
+promptUser();
